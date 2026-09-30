@@ -1,0 +1,56 @@
+{
+  "app": {
+    "name": "Print Management",
+    "tagline": "Printing Company Management System"
+  },
+  "auth": {
+    "welcome_back": "Welcome back",
+    "sign_in_subtitle": "Sign in to your account to continue",
+    "email_label": "Email Address",
+    "email_placeholder": "you@example.com",
+    "password_label": "Password",
+    "password_placeholder": "Enter your password",
+    "remember_me": "Remember me",
+    "sign_in": "Sign In",
+    "signing_in": "Signing in...",
+    "forgot_password": "Forgot password?",
+    "forgot_password_title": "Reset your password",
+    "forgot_password_subtitle": "Enter your email and we'll send you a reset link",
+    "reset_link_sent": "Reset link sent! Check your email inbox.",
+    "send_reset_link": "Send Reset Link",
+    "sending": "Sending...",
+    "back_to_login": "Back to sign in",
+    "show_password": "Show password",
+    "hide_password": "Hide password"
+  },
+  "errors": {
+    "email_required": "Email address is required",
+    "email_invalid": "Please enter a valid email address",
+    "password_required": "Password is required",
+    "password_min": "Password must be at least 8 characters",
+    "invalid_credentials": "Incorrect email or password. Please try again.",
+    "network_error": "Connection error. Please check your internet and try again.",
+    "unexpected_error": "Something went wrong. Please try again.",
+    "too_many_requests": "Too many attempts. Please wait a few minutes and try again."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "signed_in_message": "You are signed in successfully.",
+    "coming_soon": "Dashboard is coming in the next module.",
+    "sign_out": "Sign Out"
+  },
+  "language": {
+    "switch_to_tamil": "தமிழ்",
+    "switch_to_english": "English",
+    "current": "EN"
+  },
+  "branding": {
+    "left_title": "Print Management",
+    "left_subtitle": "A complete digital system for your printing business",
+    "left_point1": "Track rolls, orders and production",
+    "left_point2": "Manage clients and payments",
+    "left_point3": "Monitor attendance and salary",
+    "left_point4": "Monthly and yearly reports"
+  }
+}
