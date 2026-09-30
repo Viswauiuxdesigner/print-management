@@ -442,6 +442,7 @@ export async function generateAllMonthlySalaryRecordsAction(
         payroll_month: month,
         advance_deduction: 0,
         other_deduction: 0,
+        notes: null,
       });
       if (res.success) {
         successCount++;
