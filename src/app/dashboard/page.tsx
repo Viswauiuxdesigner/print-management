@@ -1,7 +1,13 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getTranslations, getLocale } from "next-intl/server";
-import { LayoutDashboard, Users, ArrowRight, Package } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  ArrowRight,
+  Package,
+  Receipt,
+} from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/layout/AppHeader";
@@ -64,6 +70,20 @@ export default async function DashboardPage() {
                   {t("dashboard.view_orders")}
                 </span>
                 <ArrowRight className="h-4 w-4 text-brand-200 group-hover:text-white transition-transform group-hover:translate-x-0.5" />
+              </Button>
+            </Link>
+
+            <Link href="/expenses" className="block w-full">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full justify-between shadow-xs group"
+              >
+                <span className="flex items-center gap-2">
+                  <Receipt className="h-5 w-5 text-slate-400 group-hover:text-slate-700" />
+                  {t("dashboard.view_expenses")}
+                </span>
+                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-700 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
 
