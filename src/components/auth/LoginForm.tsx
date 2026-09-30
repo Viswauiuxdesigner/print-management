@@ -21,7 +21,7 @@ interface LoginFormProps {
  * Login form component.
  * Handles email/password validation, Supabase auth, loading and error states.
  */
-export function LoginForm({ locale }: LoginFormProps) {
+export function LoginForm({ locale: _locale }: LoginFormProps) {
   const t = useTranslations("auth");
   const tErr = useTranslations("errors");
   const router = useRouter();
