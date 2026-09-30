@@ -292,7 +292,7 @@ export function EmployeeDetail({
         }
         confirmText={employee.is_active ? t("action_deactivate") : t("action_activate")}
         cancelText={t("action_cancel")}
-        variant={employee.is_active ? "danger" : "brand"}
+        variant={employee.is_active ? "danger" : "primary"}
         isLoading={isPending}
       />
     </div>
