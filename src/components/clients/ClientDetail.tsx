@@ -14,7 +14,6 @@ import {
   CreditCard,
   Plus,
   ArrowRight,
-  Layers,
 } from "lucide-react";
 import type { Client } from "@/lib/types/client";
 import { getOrdersByClientId } from "@/lib/actions/orders";

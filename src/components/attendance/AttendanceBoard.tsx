@@ -37,7 +37,7 @@ interface AttendanceBoardProps {
 export function AttendanceBoard({
   initialDate,
   initialEmployees,
-  initialSummary,
+  initialSummary: _initialSummary,
 }: AttendanceBoardProps) {
   const t = useTranslations("attendance");
   const router = useRouter();
@@ -153,6 +153,7 @@ export function AttendanceBoard({
         employee_id: employeeId,
         attendance_date: currentDate,
         status,
+        notes: null,
       });
 
       if (!res.success) {
@@ -201,6 +202,7 @@ export function AttendanceBoard({
             employee_id: emp.id,
             attendance_date: currentDate,
             status: "present",
+            notes: null,
           })
         )
       );

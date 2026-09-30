@@ -8,7 +8,6 @@ import {
   Edit2,
   Ban,
   Calendar,
-  Layers,
   CreditCard,
   FileText,
   Clock,

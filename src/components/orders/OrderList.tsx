@@ -10,7 +10,6 @@ import {
   Package,
   Calendar,
   Layers,
-  ArrowUpRight,
   Eye,
   Edit2,
   Building2,

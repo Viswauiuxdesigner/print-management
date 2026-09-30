@@ -24,7 +24,7 @@ interface EmployeeListProps {
   locale: string;
 }
 
-export function EmployeeList({ initialEmployees, locale }: EmployeeListProps) {
+export function EmployeeList({ initialEmployees, locale: _locale }: EmployeeListProps) {
   const t = useTranslations("employees");
   const router = useRouter();
 

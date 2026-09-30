@@ -6,9 +6,6 @@ import { useTranslations } from "next-intl";
 import {
   Calendar,
   CalendarCheck,
-  User,
-  Filter,
-  FileText,
 } from "lucide-react";
 
 import type {
@@ -33,7 +30,7 @@ export function AttendanceHistory({
 }: AttendanceHistoryProps) {
   const t = useTranslations("attendance");
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   const [selectedMonth, setSelectedMonth] = useState(
     initialFilters.month || new Date().toISOString().slice(0, 7)

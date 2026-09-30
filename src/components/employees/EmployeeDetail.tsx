@@ -9,11 +9,7 @@ import {
   Edit2,
   Power,
   Phone,
-  Mail,
-  MapPin,
   Briefcase,
-  Calendar,
-  DollarSign,
   FileText,
   CalendarCheck,
 } from "lucide-react";
@@ -33,7 +29,7 @@ interface EmployeeDetailProps {
 export function EmployeeDetail({
   employee,
   recentAttendance,
-  locale,
+  locale: _locale,
 }: EmployeeDetailProps) {
   const t = useTranslations("employees");
   const tAtt = useTranslations("attendance");
