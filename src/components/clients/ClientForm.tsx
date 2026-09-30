@@ -105,7 +105,7 @@ export function ClientForm({ mode, initialData }: ClientFormProps) {
           <Link
             href={mode === "edit" && initialData ? `/clients/${initialData.id}` : "/clients"}
           >
-            <Button type="button" variant="outline" size="sm" disabled={isSubmitting}>
+            <Button type="button" variant="secondary" size="sm" disabled={isSubmitting}>
               {t("action_cancel")}
             </Button>
           </Link>
@@ -273,7 +273,7 @@ export function ClientForm({ mode, initialData }: ClientFormProps) {
         <Link
           href={mode === "edit" && initialData ? `/clients/${initialData.id}` : "/clients"}
         >
-          <Button type="button" variant="outline" size="md" disabled={isSubmitting}>
+          <Button type="button" variant="secondary" size="md" disabled={isSubmitting}>
             {t("action_cancel")}
           </Button>
         </Link>

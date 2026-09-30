@@ -189,7 +189,7 @@ export function ClientList({ initialClients }: ClientListProps) {
               </p>
               <div className="pt-3">
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   size="sm"
                   onClick={() => setSearchQuery("")}
                 >

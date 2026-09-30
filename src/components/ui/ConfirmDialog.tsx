@@ -89,7 +89,7 @@ export function ConfirmDialog({
         <div className="flex items-center justify-end gap-3 pt-2">
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={onClose}
             disabled={isLoading}

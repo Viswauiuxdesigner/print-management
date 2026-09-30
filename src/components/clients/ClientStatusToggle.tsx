@@ -42,7 +42,7 @@ export function ClientStatusToggle({ clientId, isActive }: ClientStatusTogglePro
     <>
       <Button
         type="button"
-        variant={isActive ? "outline" : "secondary"}
+        variant="secondary"
         size="sm"
         onClick={() => setIsOpen(true)}
         className={

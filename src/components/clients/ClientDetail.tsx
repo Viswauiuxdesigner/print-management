@@ -87,7 +87,7 @@ export async function ClientDetail({ client }: ClientDetailProps) {
           {/* Action buttons: Edit & Deactivate */}
           <div className="flex items-center gap-2.5 pt-2 sm:pt-0">
             <Link href={`/clients/${client.id}/edit`}>
-              <Button variant="outline" size="sm">
+              <Button variant="secondary" size="sm">
                 <Edit2 className="h-4 w-4 mr-1.5" />
                 {t("action_edit")}
               </Button>
