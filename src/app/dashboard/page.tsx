@@ -103,7 +103,18 @@ export default async function DashboardPage() {
               </Button>
             </Link>
 
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <Link href="/salary" className="block w-full">
+                <Button
+                  variant="secondary"
+                  size="md"
+                  className="w-full justify-center text-xs sm:text-sm"
+                >
+                  <Receipt className="h-4 w-4 mr-1.5 text-brand-600" />
+                  <span>{t("dashboard.view_salary")}</span>
+                </Button>
+              </Link>
+
               <Link href="/clients" className="block w-full">
                 <Button
                   variant="secondary"
