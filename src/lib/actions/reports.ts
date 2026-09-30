@@ -8,6 +8,7 @@ import type {
   ProductionReportRow,
   ClientReportRow,
   ExpenseReportData,
+  ExpenseReportItem,
   AttendanceReportRow,
   SalaryReportRow,
   AdvanceReportRow,
