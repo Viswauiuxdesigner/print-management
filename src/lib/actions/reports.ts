@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { roundCurrency } from "@/lib/billing/calculations";
+import { getDefaultDateRange } from "@/lib/reports/date-utils";
 import type {
   ReportOverview,
   ProductionReportRow,
@@ -15,20 +16,6 @@ import type {
   FinancialSummaryData,
   ReportFilterParams,
 } from "@/lib/types/reports";
-
-/**
- * Get standard start and end date for the current calendar month
- */
-export function getDefaultDateRange(): { startDate: string; endDate: string } {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const lastDay = new Date(year, now.getMonth() + 1, 0).getDate();
-  return {
-    startDate: `${year}-${month}-01`,
-    endDate: `${year}-${month}-${String(lastDay).padStart(2, "0")}`,
-  };
-}
 
 /**
  * Helper to enforce server-side role security

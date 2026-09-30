@@ -5,8 +5,8 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { ReportsView } from "@/components/reports/ReportsView";
+import { getDefaultDateRange } from "@/lib/reports/date-utils";
 import {
-  getDefaultDateRange,
   getReportOverview,
   getProductionReport,
   getClientReport,

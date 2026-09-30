@@ -30,6 +30,7 @@ import type {
   ReportFilterParams,
 } from "@/lib/types/reports";
 
+import { getDefaultDateRange } from "@/lib/reports/date-utils";
 import {
   getReportOverview,
   getProductionReport,
@@ -41,7 +42,6 @@ import {
   getBillingReport,
   getPaymentReport,
   getFinancialSummary,
-  getDefaultDateRange,
 } from "@/lib/actions/reports";
 
 import { ReportFilterBar } from "./ReportFilterBar";
