@@ -13,6 +13,7 @@ import {
   CalendarCheck,
   Wallet,
   CreditCard,
+  BarChart3,
   Menu,
   X,
 } from "lucide-react";
@@ -81,6 +82,12 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
       label: t("salary"),
       icon: Wallet,
       active: pathname.startsWith("/salary"),
+    },
+    {
+      href: "/reports",
+      label: t("reports"),
+      icon: BarChart3,
+      active: pathname.startsWith("/reports"),
     },
   ];
 

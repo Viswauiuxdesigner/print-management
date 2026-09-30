@@ -10,6 +10,7 @@ import {
   UserCheck,
   CalendarCheck,
   CreditCard,
+  BarChart3,
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
@@ -62,17 +63,31 @@ export default async function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="space-y-3 pt-2">
-            <Link href="/attendance" className="block w-full">
+            <Link href="/reports" className="block w-full">
               <Button
                 variant="primary"
                 size="lg"
                 className="w-full justify-between shadow-xs group"
               >
                 <span className="flex items-center gap-2">
-                  <CalendarCheck className="h-5 w-5 text-brand-200 group-hover:text-white" />
-                  {t("dashboard.view_attendance")}
+                  <BarChart3 className="h-5 w-5 text-brand-200 group-hover:text-white" />
+                  {t("dashboard.view_reports")}
                 </span>
                 <ArrowRight className="h-4 w-4 text-brand-200 group-hover:text-white transition-transform group-hover:translate-x-0.5" />
+              </Button>
+            </Link>
+
+            <Link href="/attendance" className="block w-full">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full justify-between shadow-xs group"
+              >
+                <span className="flex items-center gap-2">
+                  <CalendarCheck className="h-5 w-5 text-slate-400 group-hover:text-slate-700" />
+                  {t("dashboard.view_attendance")}
+                </span>
+                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-700 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
 
@@ -85,20 +100,6 @@ export default async function DashboardPage() {
                 <span className="flex items-center gap-2">
                   <Package className="h-5 w-5 text-slate-400 group-hover:text-slate-700" />
                   {t("dashboard.view_orders")}
-                </span>
-                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-700 transition-transform group-hover:translate-x-0.5" />
-              </Button>
-            </Link>
-
-            <Link href="/expenses" className="block w-full">
-              <Button
-                variant="secondary"
-                size="lg"
-                className="w-full justify-between shadow-xs group"
-              >
-                <span className="flex items-center gap-2">
-                  <Receipt className="h-5 w-5 text-slate-400 group-hover:text-slate-700" />
-                  {t("dashboard.view_expenses")}
                 </span>
                 <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-700 transition-transform group-hover:translate-x-0.5" />
               </Button>
