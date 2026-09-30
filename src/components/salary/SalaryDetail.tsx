@@ -7,7 +7,6 @@ import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   Calendar,
-  CheckCircle2,
   Clock,
   DollarSign,
   User,
@@ -67,7 +66,7 @@ export function SalaryDetail({ record }: SalaryDetailProps) {
         payroll_month: record.payroll_month,
         advance_deduction: Number(advanceDeduction) || 0,
         other_deduction: Number(otherDeduction) || 0,
-        notes: notes || undefined,
+        notes: notes || null,
       });
 
       if (!res.success) {

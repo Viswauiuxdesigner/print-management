@@ -7,7 +7,6 @@ import {
   type SalaryAdvanceFormValues,
 } from "@/lib/validators/salary";
 import type {
-  SalaryAdvance,
   SalaryAdvanceWithEmployee,
   AdvanceFilters,
   EmployeeAdvanceSummary,

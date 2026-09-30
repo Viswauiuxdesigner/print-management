@@ -11,7 +11,7 @@ import {
   salaryPaymentSchema,
   type SalaryPaymentFormValues,
 } from "@/lib/validators/salary";
-import type { SalaryRecordWithEmployee, SalaryPaymentMethod } from "@/lib/types/salary";
+import type { SalaryRecordWithEmployee } from "@/lib/types/salary";
 import { recordSalaryPaymentAction } from "@/lib/actions/salary";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
