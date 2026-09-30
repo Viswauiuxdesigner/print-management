@@ -12,6 +12,7 @@ import {
   UserCheck,
   CalendarCheck,
   Wallet,
+  CreditCard,
   Menu,
   X,
 } from "lucide-react";
@@ -50,6 +51,12 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
       label: t("orders"),
       icon: Package,
       active: pathname.startsWith("/orders"),
+    },
+    {
+      href: "/billing",
+      label: t("billing"),
+      icon: CreditCard,
+      active: pathname.startsWith("/billing"),
     },
     {
       href: "/expenses",

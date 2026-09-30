@@ -12,9 +12,13 @@ import {
   Printer,
   Truck,
   CheckCircle,
+  Receipt,
+  Plus,
 } from "lucide-react";
 import type { OrderDetailWithRelations } from "@/lib/types/order";
+import { getBills } from "@/lib/actions/billing";
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import { OrderStatusUpdater } from "@/components/orders/OrderStatusUpdater";
 import { RollList } from "@/components/orders/RollList";
 import { ProductionEntrySection } from "@/components/orders/ProductionEntryForm";
@@ -26,6 +30,9 @@ interface OrderDetailProps {
 
 export async function OrderDetail({ order }: OrderDetailProps) {
   const t = await getTranslations("orders");
+  const tBill = await getTranslations("billing");
+  const { bills = [] } = await getBills({ client_id: order.client_id });
+  const orderBills = bills.filter((b) => b.order_id === order.id);
 
   // Format dates safely
   const formattedOrderDate = new Date(order.order_date).toLocaleDateString(
@@ -230,6 +237,75 @@ export async function OrderDetail({ order }: OrderDetailProps) {
         entries={order.delivery_entries}
         remainingWeight={order.remaining_weight}
       />
+
+      {/* ── SECTION: BILLING & INVOICES ── */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2">
+            <Receipt className="h-4 w-4 text-brand-600 shrink-0" />
+            <h2 className="text-base font-semibold text-slate-900">
+              {tBill("title")}
+            </h2>
+          </div>
+
+          <Link href={`/billing/new?client_id=${order.client_id}&order_id=${order.id}`}>
+            <Button variant="secondary" size="sm" className="h-8 text-xs">
+              <Plus className="h-3.5 w-3.5 mr-1" />
+              <span>{tBill("action_new_bill")}</span>
+            </Button>
+          </Link>
+        </div>
+
+        {orderBills.length === 0 ? (
+          <div className="text-center py-5 text-slate-400 text-xs">
+            <p>{tBill("no_bills_for_order")}</p>
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            {orderBills.map((b) => (
+              <Link
+                key={b.id}
+                href={`/billing/${b.id}`}
+                className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-100 transition-colors group text-xs sm:text-sm"
+              >
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-bold text-slate-900 group-hover:text-brand-600">
+                      {b.bill_number}
+                    </span>
+                    <Badge
+                      variant={
+                        b.status === "paid"
+                          ? "success"
+                          : b.status === "partially_paid"
+                          ? "warning"
+                          : b.status === "cancelled"
+                          ? "danger"
+                          : "neutral"
+                      }
+                      size="sm"
+                    >
+                      {tBill(`status_${b.status}`)}
+                    </Badge>
+                  </div>
+                  <div className="text-[11px] text-slate-400 font-mono mt-0.5">
+                    {b.bill_date} • {b.billing_type}
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <span className="font-bold font-mono text-slate-900 block">
+                    ₹{Number(b.net_amount).toLocaleString("en-IN")}
+                  </span>
+                  <span className="text-[11px] font-mono text-amber-700 block">
+                    Pending: ₹{Number(b.pending_amount).toLocaleString("en-IN")}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Audit & Timestamps Footer */}
       <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4 sm:p-5 text-xs text-slate-600 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
