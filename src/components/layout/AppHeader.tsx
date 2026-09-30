@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { PrinterIcon, Users, LayoutDashboard, Menu, X } from "lucide-react";
+import { PrinterIcon, Users, LayoutDashboard, Package, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { SignOutButton } from "@/components/auth/SignOutButton";
@@ -33,6 +33,12 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
       label: t("clients"),
       icon: Users,
       active: pathname.startsWith("/clients"),
+    },
+    {
+      href: "/orders",
+      label: t("orders"),
+      icon: Package,
+      active: pathname.startsWith("/orders"),
     },
   ];
 

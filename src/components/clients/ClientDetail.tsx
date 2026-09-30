@@ -12,8 +12,12 @@ import {
   Clock,
   Package,
   CreditCard,
+  Plus,
+  ArrowRight,
+  Layers,
 } from "lucide-react";
 import type { Client } from "@/lib/types/client";
+import { getOrdersByClientId } from "@/lib/actions/orders";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ClientStatusToggle } from "@/components/clients/ClientStatusToggle";
@@ -22,8 +26,35 @@ interface ClientDetailProps {
   client: Client;
 }
 
+function getOrderStatusBadgeVariant(
+  status: string
+): "neutral" | "brand" | "warning" | "success" | "danger" {
+  switch (status) {
+    case "received":
+      return "neutral";
+    case "processing":
+      return "brand";
+    case "printing":
+      return "warning";
+    case "completed":
+      return "success";
+    case "delivered":
+      return "brand";
+    case "cancelled":
+      return "danger";
+    default:
+      return "neutral";
+  }
+}
+
 export async function ClientDetail({ client }: ClientDetailProps) {
   const t = await getTranslations("clients");
+  const tOrd = await getTranslations("orders");
+  const { orders = [] } = await getOrdersByClientId(client.id);
+
+  const activeOrdersCount = orders.filter(
+    (o) => o.status !== "delivered" && o.status !== "cancelled"
+  ).length;
 
   // Format dates safely
   const formattedCreatedAt = new Date(client.created_at).toLocaleDateString(
@@ -209,24 +240,104 @@ export async function ClientDetail({ client }: ClientDetailProps) {
         </div>
       </div>
 
-      {/* ── FUTURE EXTENSION FOUNDATIONS (CLEAN EMPTY STATES) ── */}
+      {/* ── CLIENT ORDERS & FINANCIAL SECTIONS ── */}
       <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
-        {/* Orders Foundation */}
+        {/* Orders Card — Live Phase 3 Integration */}
         <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-2xs space-y-4">
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <h2 className="text-base font-semibold text-slate-900 flex items-center gap-2">
-              <Package className="h-4 w-4 text-slate-400 shrink-0" />
-              <span>{t("detail_orders_title")}</span>
-            </h2>
-            <span className="text-xs font-medium text-slate-500 px-2 py-0.5 bg-slate-100 rounded">
-              Phase 3
+            <div className="flex items-center gap-2">
+              <Package className="h-4 w-4 text-brand-600 shrink-0" />
+              <h2 className="text-base font-semibold text-slate-900">
+                {t("detail_orders_title")}
+              </h2>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                {orders.length}
+              </span>
+            </div>
+
+            {client.is_active && (
+              <Link href="/orders/new">
+                <Button variant="secondary" size="sm" className="h-8 text-xs">
+                  <Plus className="h-3.5 w-3.5 mr-1" />
+                  <span>{tOrd("add_order")}</span>
+                </Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Active Orders Highlight */}
+          <div className="flex items-center justify-between text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <span className="text-slate-600 font-medium">
+              {tOrd("tab_active_orders")}:
+            </span>
+            <span className="font-bold text-slate-900 font-mono">
+              {activeOrdersCount}
             </span>
           </div>
-          <div className="py-6 text-center text-slate-500 text-sm">
-            <p className="max-w-xs mx-auto text-xs text-slate-400 leading-relaxed">
-              {t("detail_orders_empty")}
-            </p>
-          </div>
+
+          {/* Orders List / Empty State */}
+          {orders.length === 0 ? (
+            <div className="py-6 text-center text-slate-500 text-sm">
+              <p className="max-w-xs mx-auto text-xs text-slate-400 leading-relaxed">
+                {t("detail_orders_empty")}
+              </p>
+              {client.is_active && (
+                <div className="mt-3">
+                  <Link href="/orders/new">
+                    <Button variant="primary" size="sm" className="text-xs">
+                      <Plus className="h-3.5 w-3.5 mr-1" />
+                      <span>{tOrd("add_order")}</span>
+                    </Button>
+                  </Link>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-2.5">
+              {orders.slice(0, 4).map((order) => (
+                <Link
+                  key={order.id}
+                  href={`/orders/${order.id}`}
+                  className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-100 hover:border-slate-200 transition-colors group"
+                >
+                  <div className="space-y-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-bold text-slate-900 group-hover:text-brand-600">
+                        {order.order_number}
+                      </span>
+                      <Badge
+                        variant={getOrderStatusBadgeVariant(order.status)}
+                        size="sm"
+                      >
+                        {tOrd(`status_${order.status}`)}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-3 text-[11px] text-slate-500">
+                      <span>{new Date(order.order_date).toLocaleDateString()}</span>
+                      <span>•</span>
+                      <span>{order.number_of_rolls} rolls</span>
+                      <span>•</span>
+                      <span>{order.received_weight_kg} kg</span>
+                    </div>
+                  </div>
+
+                  <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-brand-600 transition-colors shrink-0 ml-2" />
+                </Link>
+              ))}
+
+              {orders.length > 4 && (
+                <div className="pt-2 text-center">
+                  <Link
+                    href={`/orders`}
+                    className="text-xs font-medium text-brand-600 hover:text-brand-700 inline-flex items-center gap-1"
+                  >
+                    <span>{tOrd("view_all_orders")} ({orders.length})</span>
+                    <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Financial Summary Foundation — Balanced Mobile & Desktop Layout */}
