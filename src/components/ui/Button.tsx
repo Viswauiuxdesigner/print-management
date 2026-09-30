@@ -40,10 +40,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           "transition-all duration-150",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
           "disabled:cursor-not-allowed disabled:opacity-60",
-          // Sizes
-          size === "sm" && "h-8 px-3 text-sm",
-          size === "md" && "h-11 px-5 text-sm",
-          size === "lg" && "h-12 px-6 text-base min-h-[48px]",
+          // Sizes — flexible min-height to prevent multi-word Tamil text clipping
+          size === "sm" && "min-h-[34px] px-3 py-1.5 text-xs sm:text-sm leading-tight text-center",
+          size === "md" && "min-h-[44px] px-4 sm:px-5 py-2 sm:py-2.5 text-sm leading-normal text-center",
+          size === "lg" && "min-h-[48px] px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base leading-normal text-center",
           // Variants
           variant === "primary" && [
             "bg-brand-600 text-white",

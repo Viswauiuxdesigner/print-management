@@ -261,9 +261,9 @@ export function RollList({ orderId, rolls }: RollListProps) {
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-md rounded-2xl bg-white p-5 sm:p-6 shadow-xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-md rounded-2xl bg-white p-4 sm:p-6 shadow-xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-slate-900 leading-tight">
                 {editingRoll ? t("edit_roll") : t("add_roll")}
               </h3>
               <button
@@ -278,12 +278,12 @@ export function RollList({ orderId, rolls }: RollListProps) {
             {globalError && (
               <div className="flex items-start gap-2 p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-200">
                 <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-500" />
-                <span>{globalError}</span>
+                <span className="break-words">{globalError}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Input
                   id="roll_number"
                   label={t("field_roll_number")}
@@ -306,7 +306,7 @@ export function RollList({ orderId, rolls }: RollListProps) {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Input
                   id="color"
                   label={t("field_color")}

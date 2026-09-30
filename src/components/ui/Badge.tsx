@@ -16,9 +16,9 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center font-medium rounded-full",
+        "inline-flex items-center justify-center font-medium rounded-full leading-tight break-words max-w-full text-center",
         // Size
-        size === "sm" && "px-2 py-0.5 text-xs",
+        size === "sm" && "px-2 py-0.5 text-2xs sm:text-xs",
         size === "md" && "px-2.5 py-1 text-xs",
         // Variants
         variant === "success" && "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-600/20",

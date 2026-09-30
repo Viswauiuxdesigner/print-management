@@ -376,7 +376,7 @@ export function OrderList({ initialOrders }: OrderListProps) {
               {/* Bottom: 4 Metric Tiles (Received, Printed, Delivered, Remaining) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
                 <div className="rounded-lg bg-slate-50 p-2 text-center border border-slate-100">
-                  <span className="text-2xs text-slate-500 font-medium block">
+                  <span className="text-[11px] leading-tight text-slate-500 font-medium block">
                     {t("col_received_wt")}
                   </span>
                   <span className="font-mono text-xs font-bold text-slate-800 mt-0.5 block">
@@ -385,7 +385,7 @@ export function OrderList({ initialOrders }: OrderListProps) {
                 </div>
 
                 <div className="rounded-lg bg-slate-50 p-2 text-center border border-slate-100">
-                  <span className="text-2xs text-slate-500 font-medium block">
+                  <span className="text-[11px] leading-tight text-slate-500 font-medium block">
                     {t("col_printed_wt")}
                   </span>
                   <span className="font-mono text-xs font-bold text-amber-700 mt-0.5 block">
@@ -394,7 +394,7 @@ export function OrderList({ initialOrders }: OrderListProps) {
                 </div>
 
                 <div className="rounded-lg bg-slate-50 p-2 text-center border border-slate-100">
-                  <span className="text-2xs text-slate-500 font-medium block">
+                  <span className="text-[11px] leading-tight text-slate-500 font-medium block">
                     {t("col_delivered_wt")}
                   </span>
                   <span className="font-mono text-xs font-bold text-emerald-700 mt-0.5 block">
@@ -403,7 +403,7 @@ export function OrderList({ initialOrders }: OrderListProps) {
                 </div>
 
                 <div className="rounded-lg bg-brand-50/60 p-2 text-center border border-brand-100">
-                  <span className="text-2xs text-brand-700 font-medium block">
+                  <span className="text-[11px] leading-tight text-brand-700 font-medium block">
                     {t("col_remaining_wt")}
                   </span>
                   <span className="font-mono text-xs font-bold text-brand-800 mt-0.5 block">

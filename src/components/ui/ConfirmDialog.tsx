@@ -51,12 +51,12 @@ export function ConfirmDialog({
     >
       <div
         ref={dialogRef}
-        className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl border border-slate-200 space-y-4 animate-in zoom-in-95 duration-150"
+        className="w-full max-w-md rounded-2xl bg-white p-4 sm:p-6 shadow-xl border border-slate-200 space-y-4 animate-in zoom-in-95 duration-150"
       >
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3 min-w-0">
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl mt-0.5 ${
                 variant === "danger"
                   ? "bg-red-50 text-red-600 ring-1 ring-red-100"
                   : "bg-brand-50 text-brand-600 ring-1 ring-brand-100"
@@ -66,7 +66,7 @@ export function ConfirmDialog({
             </div>
             <h3
               id="dialog-title"
-              className="text-base font-semibold text-slate-900"
+              className="text-sm sm:text-base font-semibold text-slate-900 leading-snug break-words"
             >
               {title}
             </h3>
@@ -75,24 +75,25 @@ export function ConfirmDialog({
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            className="rounded-lg p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            className="rounded-lg p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500 shrink-0 cursor-pointer"
             aria-label="Close dialog"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        <p className="text-sm text-slate-600 leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed break-words">
           {description}
         </p>
 
-        <div className="flex items-center justify-end gap-3 pt-2">
+        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 pt-2">
           <Button
             type="button"
             variant="secondary"
             size="sm"
             onClick={onClose}
             disabled={isLoading}
+            className="w-full sm:w-auto justify-center"
           >
             {cancelText}
           </Button>
@@ -103,6 +104,7 @@ export function ConfirmDialog({
             onClick={onConfirm}
             loading={isLoading}
             disabled={isLoading}
+            className="w-full sm:w-auto justify-center"
           >
             {confirmText}
           </Button>

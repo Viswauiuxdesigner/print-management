@@ -22,10 +22,12 @@
     line-height: 1.6;
   }
 
-  /* Improve Tamil font rendering */
+  /* Improve Tamil font rendering & line-height */
   :lang(ta) {
-    font-family: var(--font-noto-tamil), "Noto Sans Tamil", sans-serif;
-    line-height: 1.8; /* Tamil script needs more line height */
+    font-family: var(--font-noto-tamil), "Noto Sans Tamil", var(--font-inter), sans-serif;
+    line-height: 1.7; /* Tamil script needs slightly more line height */
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   /* Focus visible — keyboard navigation */

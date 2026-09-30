@@ -211,7 +211,7 @@ export function ProductionEntrySection({
                     className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
                     {...register("order_roll_id")}
                   >
-                    <option value="">-- General Order (No specific roll) --</option>
+                    <option value="">{t("field_select_roll_general")}</option>
                     {rolls.map((roll) => (
                       <option key={roll.id} value={roll.id}>
                         {roll.roll_number} — {roll.received_weight_kg.toFixed(1)} kg {roll.color ? `(${roll.color})` : ""}

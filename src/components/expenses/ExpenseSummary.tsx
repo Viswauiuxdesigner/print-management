@@ -16,11 +16,11 @@ export function ExpenseSummary({ summary, locale }: ExpenseSummaryProps) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {/* Total Active Expenses */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider leading-tight break-words">
               {t("summary_total_active")}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-700 shrink-0">
               <DollarSign className="h-4 w-4" />
             </div>
           </div>
@@ -34,11 +34,11 @@ export function ExpenseSummary({ summary, locale }: ExpenseSummaryProps) {
 
         {/* Today's Expenses */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider leading-tight break-words">
               {t("summary_today")}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600 shrink-0">
               <Calendar className="h-4 w-4" />
             </div>
           </div>
@@ -55,11 +55,11 @@ export function ExpenseSummary({ summary, locale }: ExpenseSummaryProps) {
 
         {/* This Month's Expenses */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider leading-tight break-words">
               {t("summary_this_month")}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-50 text-amber-600 shrink-0">
               <TrendingUp className="h-4 w-4" />
             </div>
           </div>

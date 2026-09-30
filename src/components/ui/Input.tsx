@@ -53,10 +53,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           <p
             id={id ? `${id}-error` : undefined}
             role="alert"
-            className="mt-1.5 text-sm text-red-600 flex items-center gap-1"
+            className="mt-1.5 text-xs sm:text-sm text-red-600 flex items-start gap-1.5 leading-snug break-words"
           >
             <svg
-              className="w-3.5 h-3.5 flex-shrink-0"
+              className="w-3.5 h-3.5 flex-shrink-0 mt-0.5"
               fill="currentColor"
               viewBox="0 0 20 20"
               aria-hidden="true"
@@ -67,7 +67,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 clipRule="evenodd"
               />
             </svg>
-            {error}
+            <span className="break-words">{error}</span>
           </p>
         )}
       </div>

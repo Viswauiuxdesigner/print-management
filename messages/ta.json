@@ -229,6 +229,7 @@
     "add_production": "உற்பத்தி பதிவு சேர்க்க",
     "field_entry_date": "உற்பத்தி தேதி",
     "field_select_roll": "ரோலைத் தேர்வு செய்யவும் (விரும்பினால்)",
+    "field_select_roll_general": "-- பொது ஆர்டர் (குறிப்பிட்ட ரோல் இல்லை) --",
     "field_printed_weight": "அச்சிட்ட எடை (kg)",
     "field_printed_weight_placeholder": "உதா: 44.8",
     "field_production_notes": "உற்பத்தி குறிப்புகள்",

@@ -229,6 +229,7 @@
     "add_production": "Record Production Entry",
     "field_entry_date": "Production Date",
     "field_select_roll": "Select Roll (Optional)",
+    "field_select_roll_general": "-- General Order (No specific roll) --",
     "field_printed_weight": "Printed Weight (kg)",
     "field_printed_weight_placeholder": "e.g. 44.8",
     "field_production_notes": "Production Notes",

@@ -9,7 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
+        sans: [
+          "var(--font-inter)",
+          "var(--font-noto-tamil)",
+          "Inter",
+          "Noto Sans Tamil",
+          "system-ui",
+          "-apple-system",
+          "sans-serif",
+        ],
         tamil: ["var(--font-noto-tamil)", "Noto Sans Tamil", "sans-serif"],
       },
       colors: {

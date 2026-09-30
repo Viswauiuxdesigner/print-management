@@ -126,14 +126,14 @@ export async function OrderDetail({ order }: OrderDetailProps) {
       </div>
 
       {/* ── 4 KEY WEIGHT & ROLL SUMMARY CARDS ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Received Weight */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider leading-tight break-words">
               {t("metric_received")}
             </span>
-            <Scale className="h-4 w-4 text-slate-400" />
+            <Scale className="h-4 w-4 text-slate-400 shrink-0" />
           </div>
           <p className="mt-2 text-xl sm:text-2xl font-bold font-mono text-slate-900">
             {order.received_weight_kg.toFixed(2)}{" "}
@@ -149,51 +149,51 @@ export async function OrderDetail({ order }: OrderDetailProps) {
 
         {/* Printed Weight */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider leading-tight break-words">
               {t("metric_printed")}
             </span>
-            <Printer className="h-4 w-4 text-amber-500" />
+            <Printer className="h-4 w-4 text-amber-500 shrink-0" />
           </div>
           <p className="mt-2 text-xl sm:text-2xl font-bold font-mono text-amber-700">
             {order.total_printed_weight.toFixed(2)}{" "}
             <span className="text-xs font-sans font-normal text-amber-600">kg</span>
           </p>
-          <p className="mt-1 text-[11px] text-slate-500">
+          <p className="mt-1 text-[11px] text-slate-500 leading-tight">
             {order.production_entries.length} {t("metric_production_entries")}
           </p>
         </div>
 
         {/* Delivered Weight */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wider leading-tight break-words">
               {t("metric_delivered")}
             </span>
-            <Truck className="h-4 w-4 text-emerald-500" />
+            <Truck className="h-4 w-4 text-emerald-500 shrink-0" />
           </div>
           <p className="mt-2 text-xl sm:text-2xl font-bold font-mono text-emerald-700">
             {order.total_delivered_weight.toFixed(2)}{" "}
             <span className="text-xs font-sans font-normal text-emerald-600">kg</span>
           </p>
-          <p className="mt-1 text-[11px] text-slate-500">
+          <p className="mt-1 text-[11px] text-slate-500 leading-tight">
             {order.delivery_entries.length} {t("metric_delivery_entries")}
           </p>
         </div>
 
         {/* Remaining Weight */}
         <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-2xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider leading-tight break-words">
               {t("metric_remaining")}
             </span>
-            <CheckCircle className="h-4 w-4 text-brand-500" />
+            <CheckCircle className="h-4 w-4 text-brand-500 shrink-0" />
           </div>
           <p className="mt-2 text-xl sm:text-2xl font-bold font-mono text-brand-700">
             {order.remaining_weight.toFixed(2)}{" "}
             <span className="text-xs font-sans font-normal text-brand-600">kg</span>
           </p>
-          <p className="mt-1 text-[11px] text-slate-500">
+          <p className="mt-1 text-[11px] text-slate-500 leading-tight">
             {order.remaining_weight === 0 && order.total_delivered_weight > 0
               ? t("badge_fully_delivered")
               : t("badge_in_progress")}
