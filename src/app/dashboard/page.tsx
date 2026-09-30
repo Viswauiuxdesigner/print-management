@@ -7,6 +7,8 @@ import {
   ArrowRight,
   Package,
   Receipt,
+  UserCheck,
+  CalendarCheck,
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/server";
@@ -59,17 +61,31 @@ export default async function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="space-y-3 pt-2">
-            <Link href="/orders" className="block w-full">
+            <Link href="/attendance" className="block w-full">
               <Button
                 variant="primary"
                 size="lg"
                 className="w-full justify-between shadow-xs group"
               >
                 <span className="flex items-center gap-2">
-                  <Package className="h-5 w-5 text-brand-200 group-hover:text-white" />
-                  {t("dashboard.view_orders")}
+                  <CalendarCheck className="h-5 w-5 text-brand-200 group-hover:text-white" />
+                  {t("dashboard.view_attendance")}
                 </span>
                 <ArrowRight className="h-4 w-4 text-brand-200 group-hover:text-white transition-transform group-hover:translate-x-0.5" />
+              </Button>
+            </Link>
+
+            <Link href="/orders" className="block w-full">
+              <Button
+                variant="secondary"
+                size="lg"
+                className="w-full justify-between shadow-xs group"
+              >
+                <span className="flex items-center gap-2">
+                  <Package className="h-5 w-5 text-slate-400 group-hover:text-slate-700" />
+                  {t("dashboard.view_orders")}
+                </span>
+                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-700 transition-transform group-hover:translate-x-0.5" />
               </Button>
             </Link>
 
@@ -87,19 +103,29 @@ export default async function DashboardPage() {
               </Button>
             </Link>
 
-            <Link href="/clients" className="block w-full">
-              <Button
-                variant="secondary"
-                size="lg"
-                className="w-full justify-between shadow-xs group"
-              >
-                <span className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-slate-400 group-hover:text-slate-700" />
-                  {t("dashboard.view_clients")}
-                </span>
-                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-slate-700 transition-transform group-hover:translate-x-0.5" />
-              </Button>
-            </Link>
+            <div className="grid grid-cols-2 gap-2.5">
+              <Link href="/clients" className="block w-full">
+                <Button
+                  variant="secondary"
+                  size="md"
+                  className="w-full justify-center text-xs sm:text-sm"
+                >
+                  <Users className="h-4 w-4 mr-1.5 text-slate-400" />
+                  <span>{t("dashboard.view_clients")}</span>
+                </Button>
+              </Link>
+
+              <Link href="/employees" className="block w-full">
+                <Button
+                  variant="secondary"
+                  size="md"
+                  className="w-full justify-center text-xs sm:text-sm"
+                >
+                  <UserCheck className="h-4 w-4 mr-1.5 text-slate-400" />
+                  <span>{t("dashboard.view_employees")}</span>
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {/* User info */}

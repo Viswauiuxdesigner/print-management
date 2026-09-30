@@ -9,6 +9,8 @@ import {
   LayoutDashboard,
   Package,
   Receipt,
+  UserCheck,
+  CalendarCheck,
   Menu,
   X,
 } from "lucide-react";
@@ -53,6 +55,18 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
       label: t("expenses"),
       icon: Receipt,
       active: pathname.startsWith("/expenses"),
+    },
+    {
+      href: "/employees",
+      label: t("employees"),
+      icon: UserCheck,
+      active: pathname.startsWith("/employees"),
+    },
+    {
+      href: "/attendance",
+      label: t("attendance"),
+      icon: CalendarCheck,
+      active: pathname.startsWith("/attendance"),
     },
   ];
 
