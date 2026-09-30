@@ -141,7 +141,7 @@ export function ClientList({ initialClients }: ClientListProps) {
 
         {/* Status Filter Tabs */}
         <div
-          className="flex items-center rounded-lg border border-slate-200 bg-slate-50 p-1 self-start sm:self-auto"
+          className="flex items-center justify-between sm:justify-start w-full sm:w-auto rounded-lg border border-slate-200 bg-slate-50 p-1"
           role="group"
           aria-label="Filter clients by status"
         >
@@ -153,7 +153,7 @@ export function ClientList({ initialClients }: ClientListProps) {
                 type="button"
                 onClick={() => setStatusFilter(tab)}
                 aria-pressed={active}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                className={`flex-1 sm:flex-initial px-3 py-1.5 rounded-md text-xs font-semibold transition-all text-center whitespace-nowrap ${
                   active
                     ? "bg-white text-brand-700 shadow-2xs font-bold"
                     : "text-slate-600 hover:text-slate-900"

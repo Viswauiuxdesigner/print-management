@@ -45,21 +45,21 @@ export function ClientStatusToggle({ clientId, isActive }: ClientStatusTogglePro
         variant="secondary"
         size="sm"
         onClick={() => setIsOpen(true)}
-        className={
+        className={`w-full sm:w-auto justify-center whitespace-nowrap ${
           isActive
             ? "text-slate-600 hover:text-red-700 hover:border-red-300 hover:bg-red-50"
             : "text-emerald-700 border-emerald-300 bg-emerald-50 hover:bg-emerald-100"
-        }
+        }`}
       >
         {isActive ? (
           <>
-            <UserX className="h-4 w-4 mr-1.5 text-slate-400" />
-            {t("action_deactivate")}
+            <UserX className="h-4 w-4 mr-1.5 shrink-0 text-slate-400" />
+            <span>{t("action_deactivate")}</span>
           </>
         ) : (
           <>
-            <UserCheck className="h-4 w-4 mr-1.5 text-emerald-600" />
-            {t("action_activate")}
+            <UserCheck className="h-4 w-4 mr-1.5 shrink-0 text-emerald-600" />
+            <span>{t("action_activate")}</span>
           </>
         )}
       </Button>
