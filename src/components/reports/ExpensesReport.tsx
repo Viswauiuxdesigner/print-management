@@ -102,7 +102,7 @@ export function ExpensesReport({ data, locale }: ExpensesReportProps) {
             >
               <div className="flex items-start justify-between gap-2">
                 <span className="text-xs font-bold text-slate-800 line-clamp-1">
-                  {cat.category_name}
+                  {locale === "ta" ? (cat.category_name_ta || cat.category_name) : cat.category_name}
                 </span>
                 <span className="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 shrink-0">
                   {cat.entries_count} {t("entries_short")}
@@ -183,7 +183,7 @@ export function ExpensesReport({ data, locale }: ExpensesReportProps) {
                     )}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap font-semibold text-slate-900">
-                    {exp.category_name}
+                    {locale === "ta" ? (exp.category_name_ta || exp.category_name) : exp.category_name}
                   </td>
                   <td className="px-4 py-3 max-w-xs truncate text-slate-600">
                     {exp.description || "—"}
@@ -225,7 +225,9 @@ export function ExpensesReport({ data, locale }: ExpensesReportProps) {
             >
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <div className="text-sm font-bold text-slate-900">{exp.category_name}</div>
+                  <div className="text-sm font-bold text-slate-900">
+                    {locale === "ta" ? (exp.category_name_ta || exp.category_name) : exp.category_name}
+                  </div>
                   <div className="text-xs text-slate-500">
                     {new Date(exp.expense_date).toLocaleDateString(
                       locale === "ta" ? "ta-IN" : "en-IN",

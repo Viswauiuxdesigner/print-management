@@ -48,6 +48,7 @@ export interface ClientReportRow {
 export interface ExpenseCategoryBreakdown {
   category_id: string;
   category_name: string;
+  category_name_ta?: string;
   total_amount: number;
   entries_count: number;
   average_amount: number;
@@ -57,6 +58,7 @@ export interface ExpenseReportItem {
   id: string;
   expense_date: string;
   category_name: string;
+  category_name_ta?: string;
   amount: number;
   payment_method: string;
   description: string;

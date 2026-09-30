@@ -430,7 +430,8 @@ export async function getExpenseReport(
         is_void,
         category:expense_categories (
           id,
-          name
+          name_en,
+          name_ta
         )
       `)
       .gte("expense_date", startDate)
@@ -469,12 +470,13 @@ export async function getExpenseReport(
         description: string;
         reference_number: string | null;
         is_void: boolean;
-        category: { id: string; name: string } | null;
+        category: { id: string; name_en: string; name_ta: string } | null;
       };
       return {
         id: exp.id,
         expense_date: exp.expense_date,
-        category_name: exp.category?.name || "Uncategorized",
+        category_name: exp.category?.name_en || "Uncategorized",
+        category_name_ta: exp.category?.name_ta || "Uncategorized",
         amount: Number(exp.amount || 0),
         payment_method: exp.payment_method,
         description: exp.description,
@@ -489,7 +491,7 @@ export async function getExpenseReport(
     const avgExpense = entriesCount > 0 ? totalAmount / entriesCount : 0;
 
     // Category aggregation
-    const catMap = new Map<string, { id: string; name: string; total: number; count: number }>();
+    const catMap = new Map<string, { id: string; name: string; name_ta: string; total: number; count: number }>();
     activeExpenses.forEach((e) => {
       const existing = catMap.get(e.category_name);
       if (existing) {
@@ -499,6 +501,7 @@ export async function getExpenseReport(
         catMap.set(e.category_name, {
           id: e.category_name,
           name: e.category_name,
+          name_ta: e.category_name_ta || e.category_name,
           total: e.amount,
           count: 1,
         });
@@ -509,6 +512,7 @@ export async function getExpenseReport(
       .map((c) => ({
         category_id: c.id,
         category_name: c.name,
+        category_name_ta: c.name_ta,
         total_amount: roundCurrency(c.total),
         entries_count: c.count,
         average_amount: roundCurrency(c.total / c.count),

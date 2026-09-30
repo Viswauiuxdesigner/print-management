@@ -7,7 +7,6 @@ import {
   Users,
   Search,
   ArrowRight,
-  Clock,
   Phone,
 } from "lucide-react";
 

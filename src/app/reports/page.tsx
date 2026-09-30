@@ -99,7 +99,7 @@ export default async function ReportsPage() {
 
   const categoryOptions = (categoriesRes.categories || []).map((cat) => ({
     value: cat.id,
-    label: cat.name,
+    label: locale === "ta" ? cat.name_ta : cat.name_en,
   }));
 
   return (

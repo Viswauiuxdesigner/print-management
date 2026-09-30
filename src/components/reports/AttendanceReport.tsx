@@ -19,12 +19,11 @@ import { Badge } from "@/components/ui/Badge";
 
 interface AttendanceReportProps {
   rows: AttendanceReportRow[];
-  locale: string;
+  locale?: string;
 }
 
-export function AttendanceReport({ rows, locale }: AttendanceReportProps) {
+export function AttendanceReport({ rows }: AttendanceReportProps) {
   const t = useTranslations("reports");
-  const tAttendance = useTranslations("attendance");
   const [search, setSearch] = useState("");
   const [activeOnly, setActiveOnly] = useState(false);
 

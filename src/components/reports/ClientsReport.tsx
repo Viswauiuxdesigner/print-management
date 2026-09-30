@@ -19,10 +19,10 @@ import { Badge } from "@/components/ui/Badge";
 
 interface ClientsReportProps {
   rows: ClientReportRow[];
-  locale: string;
+  locale?: string;
 }
 
-export function ClientsReport({ rows, locale }: ClientsReportProps) {
+export function ClientsReport({ rows }: ClientsReportProps) {
   const t = useTranslations("reports");
   const [search, setSearch] = useState("");
   const [activeOnly, setActiveOnly] = useState(false);
@@ -43,7 +43,6 @@ export function ClientsReport({ rows, locale }: ClientsReportProps) {
 
   // Summary totals across filtered clients
   const totalClients = filteredRows.length;
-  const totalOrders = filteredRows.reduce((s, r) => s + r.orders_count, 0);
   const totalReceived = filteredRows.reduce((s, r) => s + r.received_weight_kg, 0);
   const totalDelivered = filteredRows.reduce((s, r) => s + r.delivered_weight_kg, 0);
   const totalBilled = filteredRows.reduce((s, r) => s + r.total_billed, 0);

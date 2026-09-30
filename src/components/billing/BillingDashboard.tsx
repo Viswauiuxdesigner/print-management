@@ -6,16 +6,13 @@ import { useTranslations } from "next-intl";
 import {
   Receipt,
   PlusCircle,
-  CreditCard,
   DollarSign,
   Clock,
   CheckCircle2,
-  AlertCircle,
   Search,
   ArrowRight,
   Users,
   History,
-  Scale,
 } from "lucide-react";
 
 import type {
