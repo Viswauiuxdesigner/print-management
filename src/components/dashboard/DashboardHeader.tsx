@@ -26,9 +26,9 @@ export function DashboardHeader({
   const t = useTranslations("dashboard");
 
   const [activePreset, setActivePreset] = useState<DatePreset>(currentPreset);
-  const [customStart, setCustomStart] = useState(currentRange.startDate);
-  const [customEnd, setCustomEnd] = useState(currentRange.endDate);
-  const [showCustom, setShowCustom] = useState(currentPreset === "custom");
+  const [customStart, setCustomStart] = useState<string>(currentRange.startDate);
+  const [customEnd, setCustomEnd] = useState<string>(currentRange.endDate);
+  const [showCustom, setShowCustom] = useState<boolean>(currentPreset === "custom");
   const [dateError, setDateError] = useState<string | null>(null);
 
   const presets: { id: DatePreset; label: string }[] = [
@@ -50,7 +50,7 @@ export function DashboardHeader({
     onRangeChange(range, preset);
   };
 
-  const handleApplyCustom = (e: React.FormEvent) => {
+  const handleApplyCustom = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (customStart && customEnd && customStart > customEnd) {
       setDateError(t("filter_date_error"));
@@ -124,7 +124,7 @@ export function DashboardHeader({
             <input
               type="date"
               value={customStart}
-              onChange={(e) => setCustomStart(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustomStart(e.target.value)}
               className="text-xs sm:text-sm font-medium border border-slate-200 rounded-lg px-3 py-1.5 text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
             />
           </div>
@@ -136,7 +136,7 @@ export function DashboardHeader({
             <input
               type="date"
               value={customEnd}
-              onChange={(e) => setCustomEnd(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCustomEnd(e.target.value)}
               className="text-xs sm:text-sm font-medium border border-slate-200 rounded-lg px-3 py-1.5 text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
             />
           </div>
