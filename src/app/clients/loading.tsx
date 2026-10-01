@@ -13,7 +13,7 @@ export default function ClientsLoading() {
         </div>
       </div>
 
-      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl w-full mx-auto space-y-6 animate-pulse">
+      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 lg:ml-64 lg:max-w-[calc(100%-16rem)] max-w-7xl w-full mx-auto space-y-6 animate-pulse">
         {/* Title skeleton */}
         <div className="flex items-center justify-between">
           <div className="space-y-2">

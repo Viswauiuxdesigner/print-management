@@ -67,7 +67,7 @@ export default async function BillingPage({ searchParams }: BillingPageProps) {
     <div className="min-h-dvh flex flex-col bg-slate-50">
       <AppHeader locale={locale} userEmail={user.email} />
 
-      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl w-full mx-auto space-y-6">
+      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 lg:ml-64 lg:max-w-[calc(100%-16rem)] max-w-7xl w-full mx-auto space-y-6">
         <BillingDashboard
           initialSummary={summaryRes.summary}
           initialBills={billsRes.bills}

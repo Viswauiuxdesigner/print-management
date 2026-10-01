@@ -50,7 +50,7 @@ export default async function EditEmployeePage({
     <div className="min-h-dvh flex flex-col bg-slate-50">
       <AppHeader locale={locale} userEmail={user.email} />
 
-      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-3xl w-full mx-auto">
+      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 lg:ml-64 lg:max-w-[calc(100%-16rem)] max-w-3xl w-full mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">
             {t("edit_employee")}

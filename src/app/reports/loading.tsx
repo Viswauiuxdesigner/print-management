@@ -6,7 +6,7 @@ export default function ReportsLoading() {
       {/* Header Placeholder */}
       <div className="h-16 border-b border-slate-200 bg-white/95 sticky top-0 z-30" />
 
-      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl w-full mx-auto space-y-6 animate-pulse">
+      <main className="flex-1 py-6 px-4 sm:px-6 lg:px-8 lg:ml-64 lg:max-w-[calc(100%-16rem)] max-w-7xl w-full mx-auto space-y-6 animate-pulse">
         {/* Title skeleton */}
         <div className="space-y-2">
           <div className="h-7 w-48 bg-slate-200 rounded-lg" />

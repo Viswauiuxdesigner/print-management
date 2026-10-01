@@ -19,6 +19,7 @@ import {
   X,
   Download,
   CheckCircle2,
+  ChevronRight,
 } from "lucide-react";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { SignOutButton } from "@/components/auth/SignOutButton";
@@ -39,7 +40,7 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
 
   const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME ?? "Print Management";
 
-  // Close drawer on escape key
+  // Close mobile drawer on escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -58,7 +59,7 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
     };
   }, [mobileMenuOpen]);
 
-  // All 9 major application modules in requested order
+  // All 9 major application modules in requested standard order
   const navItems = [
     {
       href: "/dashboard",
@@ -116,6 +117,9 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
     },
   ];
 
+  // Derive active module title for desktop top bar
+  const activeNavItem = navItems.find((item) => item.active) || navItems[0];
+
   const handleInstallClick = async () => {
     setInstalling(true);
     try {
@@ -125,103 +129,202 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
     }
   };
 
+  const userInitial = userEmail ? userEmail.charAt(0).toUpperCase() : "U";
+
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-xs shadow-2xs">
-        <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
-          <div className="flex h-14 sm:h-16 items-center justify-between gap-2 sm:gap-4">
-            {/* Brand Logo & Title */}
-            <div className="flex items-center gap-3 sm:gap-6 min-w-0">
-              <Link
-                href="/dashboard"
-                className="flex items-center gap-2 sm:gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 shrink-0"
-              >
-                <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-brand-600 shadow-2xs">
-                  <Printer className="h-4 w-4 sm:h-5 sm:w-5 text-white" aria-hidden="true" />
-                </div>
-                <span className="font-bold text-slate-900 text-sm sm:text-base tracking-tight truncate max-w-[140px] sm:max-w-none">
+      {/* ──────────────────────────────────────────────────────────
+          1. DESKTOP PERSISTENT LEFT SIDEBAR (>= 1024px)
+          Fixed width 256px (w-64), sticky/fixed full height
+      ────────────────────────────────────────────────────────── */}
+      <aside
+        className="hidden lg:flex fixed top-0 left-0 bottom-0 w-64 h-full bg-white border-r border-slate-200 z-40 flex-col justify-between overflow-y-auto no-scrollbar select-none"
+        aria-label="Desktop Sidebar Navigation"
+      >
+        {/* Top: Branding & Navigation Links */}
+        <div className="flex flex-col">
+          {/* Brand Header */}
+          <div className="h-16 px-5 border-b border-slate-100 flex items-center gap-3">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
+            >
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 shadow-2xs shrink-0">
+                <Printer className="h-5 w-5 text-white" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <span className="font-bold text-slate-900 text-sm tracking-tight truncate block">
                   {APP_NAME}
                 </span>
-              </Link>
+                <span className="text-[10px] text-slate-400 font-medium block truncate">
+                  Management System
+                </span>
+              </div>
+            </Link>
+          </div>
 
-              {/* Desktop Horizontal Navigation (>= lg screens) */}
-              <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1" aria-label="Main Navigation">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={cn(
-                        "flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-lg text-xs xl:text-sm font-medium transition-all whitespace-nowrap",
-                        item.active
-                          ? "bg-brand-50 text-brand-700 font-semibold shadow-2xs border border-brand-100/60"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/80"
-                      )}
-                    >
-                      <Icon
-                        className={cn(
-                          "h-3.5 w-3.5 xl:h-4 xl:w-4 shrink-0",
-                          item.active ? "text-brand-600" : "text-slate-400"
-                        )}
-                      />
-                      <span>{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </nav>
+          {/* MAIN Module Navigation */}
+          <nav className="p-3 space-y-1" aria-label="Main Modules">
+            <div className="px-3 pt-2 pb-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              {t("main_section")}
             </div>
 
-            {/* Right Side Header Controls */}
-            <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-              {/* Optional PWA In-App Install Button on Desktop/Tablet if available */}
-              {isInstallable && (
-                <button
-                  type="button"
-                  onClick={handleInstallClick}
-                  disabled={installing}
-                  className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-semibold transition-colors cursor-pointer"
-                  title={t("install_app")}
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs xl:text-sm font-medium transition-all group min-h-[44px]",
+                    item.active
+                      ? "bg-brand-50 text-brand-700 font-semibold border border-brand-200/70 shadow-2xs"
+                      : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
+                  )}
                 >
-                  <Download className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                  <span>{t("install_app")}</span>
-                </button>
-              )}
+                  <Icon
+                    className={cn(
+                      "h-4 w-4 xl:h-4.5 xl:w-4.5 shrink-0 transition-colors",
+                      item.active ? "text-brand-600" : "text-slate-400 group-hover:text-slate-600"
+                    )}
+                  />
+                  <span className="truncate leading-snug">{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
 
-              {/* Language Switcher */}
-              <LanguageSwitcher currentLocale={locale} />
+        {/* Bottom: Utility, Account & Logout Area */}
+        <div className="p-3 border-t border-slate-100 bg-slate-50/50 space-y-2.5">
+          {/* PWA In-App Install Button (Only when installable on desktop Chrome/Edge) */}
+          {isInstallable && (
+            <button
+              type="button"
+              onClick={handleInstallClick}
+              disabled={installing}
+              className="w-full flex items-center justify-center gap-2 p-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-2xs transition-colors cursor-pointer min-h-[38px]"
+            >
+              <Download className="h-3.5 w-3.5 shrink-0" />
+              <span>{t("install_app")}</span>
+            </button>
+          )}
 
-              {/* User Email Pill (Desktop) */}
-              {userEmail && (
-                <span
-                  className="hidden 2xl:inline text-xs font-mono text-slate-500 max-w-[140px] truncate bg-slate-100 px-2 py-1 rounded-md"
-                  title={userEmail}
-                >
+          {isInstalled && (
+            <div className="flex items-center justify-center gap-1.5 py-1 text-[11px] text-emerald-700 font-medium">
+              <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+              <span>{t("app_installed")}</span>
+            </div>
+          )}
+
+          {/* Language Switcher in Sidebar */}
+          <div className="flex items-center justify-between px-1">
+            <span className="text-[11px] font-medium text-slate-500">Language</span>
+            <LanguageSwitcher currentLocale={locale} />
+          </div>
+
+          {/* User Profile Card */}
+          {userEmail && (
+            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
+              <div className="h-7 w-7 rounded-lg bg-brand-100 text-brand-700 font-bold text-xs flex items-center justify-center shrink-0">
+                {userInitial}
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="text-[11px] font-mono text-slate-800 font-medium truncate block" title={userEmail}>
                   {userEmail}
                 </span>
-              )}
-
-              {/* Sign Out Button (Desktop) */}
-              <div className="hidden sm:block">
-                <SignOutButton />
               </div>
-
-              {/* Mobile / Tablet Hamburger Toggle */}
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden rounded-xl p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 shrink-0 cursor-pointer touch-target flex items-center justify-center"
-                aria-label="Toggle navigation menu"
-                aria-expanded={mobileMenuOpen}
-              >
-                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
             </div>
+          )}
+
+          {/* Sign Out Button */}
+          <div className="pt-0.5">
+            <SignOutButton />
           </div>
+        </div>
+      </aside>
+
+      {/* ──────────────────────────────────────────────────────────
+          2. DESKTOP SIMPLE TOP BAR (>= 1024px)
+          Fixed top bar offset by sidebar (lg:ml-64)
+      ────────────────────────────────────────────────────────── */}
+      <header className="hidden lg:flex sticky top-0 z-30 h-16 bg-white/90 backdrop-blur-xs border-b border-slate-200 lg:ml-64 items-center justify-between px-6 lg:px-8">
+        {/* Left: Breadcrumb / Section Title */}
+        <div className="flex items-center gap-2 text-slate-800">
+          <span className="text-sm font-semibold text-slate-900 flex items-center gap-2">
+            <activeNavItem.icon className="h-4 w-4 text-brand-600" />
+            <span>{activeNavItem.label}</span>
+          </span>
+          <ChevronRight className="h-3.5 w-3.5 text-slate-300" />
+          <span className="text-xs text-slate-400 font-medium">Overview</span>
+        </div>
+
+        {/* Right: Quick actions & user info */}
+        <div className="flex items-center gap-3">
+          {isInstallable && (
+            <button
+              type="button"
+              onClick={handleInstallClick}
+              disabled={installing}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs font-semibold transition-colors cursor-pointer"
+            >
+              <Download className="h-3.5 w-3.5 text-emerald-600" />
+              <span>{t("install_app")}</span>
+            </button>
+          )}
+
+          <LanguageSwitcher currentLocale={locale} />
+
+          {userEmail && (
+            <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+              <div className="h-7 w-7 rounded-lg bg-brand-100 text-brand-700 font-bold text-xs flex items-center justify-center shrink-0">
+                {userInitial}
+              </div>
+              <span className="text-xs font-mono text-slate-600 max-w-[150px] truncate" title={userEmail}>
+                {userEmail}
+              </span>
+            </div>
+          )}
         </div>
       </header>
 
-      {/* Mobile & Tablet Full-Featured Slide-Over Navigation Drawer */}
+      {/* ──────────────────────────────────────────────────────────
+          3. MOBILE & TABLET TOP HEADER (< 1024px)
+          Compact top bar with hamburger toggle
+      ────────────────────────────────────────────────────────── */}
+      <header className="lg:hidden sticky top-0 z-30 h-14 sm:h-16 bg-white/95 backdrop-blur-xs border-b border-slate-200 flex items-center justify-between px-4">
+        {/* Brand Logo & Title */}
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2.5 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 shrink-0"
+        >
+          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand-600 shadow-2xs">
+            <Printer className="h-4 w-4 text-white" aria-hidden="true" />
+          </div>
+          <span className="font-bold text-slate-900 text-sm tracking-tight truncate max-w-[160px] sm:max-w-none">
+            {APP_NAME}
+          </span>
+        </Link>
+
+        {/* Right: Language switcher & Hamburger button */}
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher currentLocale={locale} />
+
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="rounded-xl p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 shrink-0 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+            aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
+      </header>
+
+      {/* ──────────────────────────────────────────────────────────
+          4. MOBILE & TABLET FULL NAVIGATION DRAWER (< 1024px)
+      ────────────────────────────────────────────────────────── */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
@@ -231,7 +334,7 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
             aria-hidden="true"
           />
 
-          {/* Drawer Panel */}
+          {/* Slide-out Drawer Panel */}
           <div className="relative ml-auto w-full max-w-xs sm:max-w-sm bg-white h-full shadow-2xl flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right duration-200 safe-top safe-bottom">
             {/* Drawer Header */}
             <div>
@@ -247,7 +350,7 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
                 <button
                   type="button"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+                  className="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
                   aria-label="Close navigation menu"
                 >
                   <X className="h-5 w-5" />
@@ -256,13 +359,18 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
 
               {/* User Profile Badge in Drawer */}
               {userEmail && (
-                <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-100 text-xs text-slate-600 truncate">
-                  <span className="text-[10px] uppercase font-semibold text-slate-400 block tracking-wider">
-                    Signed in
-                  </span>
-                  <span className="font-medium font-mono text-slate-800 truncate block">
-                    {userEmail}
-                  </span>
+                <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-100 text-xs text-slate-600 truncate flex items-center gap-2.5">
+                  <div className="h-7 w-7 rounded-lg bg-brand-100 text-brand-700 font-bold text-xs flex items-center justify-center shrink-0">
+                    {userInitial}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[10px] uppercase font-semibold text-slate-400 block tracking-wider">
+                      Signed in
+                    </span>
+                    <span className="font-medium font-mono text-slate-800 truncate block">
+                      {userEmail}
+                    </span>
+                  </div>
                 </div>
               )}
 
@@ -280,7 +388,7 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors touch-target",
+                        "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors min-h-[48px]",
                         item.active
                           ? "bg-brand-50 text-brand-700 font-semibold border border-brand-100/80 shadow-2xs"
                           : "text-slate-700 hover:bg-slate-100/80 hover:text-slate-900"
@@ -292,7 +400,7 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
                           item.active ? "text-brand-600" : "text-slate-400"
                         )}
                       />
-                      <span>{item.label}</span>
+                      <span className="leading-snug">{item.label}</span>
                     </Link>
                   );
                 })}
@@ -310,7 +418,7 @@ export function AppHeader({ locale, userEmail }: AppHeaderProps) {
                     setMobileMenuOpen(false);
                   }}
                   disabled={installing}
-                  className="w-full flex items-center justify-center gap-2 p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-2xs transition-colors cursor-pointer touch-target"
+                  className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold shadow-2xs transition-colors cursor-pointer min-h-[48px]"
                 >
                   <Download className="h-4 w-4 shrink-0" />
                   <span>{t("install_app")}</span>
