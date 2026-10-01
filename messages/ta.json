@@ -4,17 +4,20 @@
     "tagline": "அச்சு நிறுவன மேலாண்மை அமைப்பு"
   },
   "nav": {
+    "main_section": "முதன்மை",
     "dashboard": "டாஷ்போர்டு",
     "clients": "வாடிக்கையாளர்கள்",
-    "orders": "ஆர்டர்கள் & உற்பத்தி",
+    "orders": "ஆர்டர்கள்",
     "expenses": "செலவுகள்",
     "employees": "பணியாளர்கள்",
     "attendance": "வருகை",
     "salary": "சம்பளம்",
     "billing": "பில்லிங்",
+    "reports": "அறிக்கைகள்",
+    "install_app": "செயலியை நிறுவவும்",
+    "app_installed": "செயலி நிறுவப்பட்டது",
     "finance": "நிதி",
     "people": "பணியாளர்கள்",
-    "reports": "அறிக்கைகள்",
     "settings": "அமைப்புகள்"
   },
   "auth": {

@@ -4,17 +4,20 @@
     "tagline": "Printing Company Management System"
   },
   "nav": {
+    "main_section": "MAIN",
     "dashboard": "Dashboard",
     "clients": "Clients",
-    "orders": "Orders & Production",
+    "orders": "Orders",
     "expenses": "Expenses",
     "employees": "Employees",
     "attendance": "Attendance",
     "salary": "Salary",
     "billing": "Billing",
+    "reports": "Reports",
+    "install_app": "Install App",
+    "app_installed": "App Installed",
     "finance": "Finance",
     "people": "People",
-    "reports": "Reports",
     "settings": "Settings"
   },
   "auth": {

@@ -1,32 +1,77 @@
 {
-  "name": "Print Management",
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "Print Management System",
   "short_name": "PrintMgmt",
-  "description": "Printing Company Management System — Track orders, production, clients, expenses, attendance and salary.",
-  "start_url": "/",
+  "description": "Printing Company Management System — Track orders, rolls, production, clients, billing, expenses, attendance, and salary.",
+  "id": "/",
+  "start_url": "/dashboard",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait-primary",
   "background_color": "#f8fafc",
   "theme_color": "#2563eb",
-  "categories": ["business", "productivity"],
+  "categories": ["business", "productivity", "finance"],
   "icons": [
     {
       "src": "/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ],
   "shortcuts": [
     {
       "name": "Dashboard",
+      "short_name": "Dashboard",
       "url": "/dashboard",
-      "description": "Go to Dashboard"
+      "description": "View company operational dashboard",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Orders",
+      "short_name": "Orders",
+      "url": "/orders",
+      "description": "Manage printing orders and rolls",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Billing",
+      "short_name": "Billing",
+      "url": "/billing",
+      "description": "Manage bills and client payments",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Daily Attendance",
+      "short_name": "Attendance",
+      "url": "/attendance",
+      "description": "Record daily employee attendance",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

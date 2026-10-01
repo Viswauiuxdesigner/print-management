@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Noto_Sans_Tamil } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getLocale } from "next-intl/server";
+import { PwaProvider } from "@/components/pwa/PwaProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,17 +26,31 @@ export const metadata: Metadata = {
     default: APP_NAME,
     template: `%s | ${APP_NAME}`,
   },
-  description: "Printing Company Management System — Track orders, production, clients, expenses, attendance and salary.",
+  description: "Printing Company Management System — Track orders, production, clients, expenses, attendance, billing, and salary.",
   applicationName: APP_NAME,
-  keywords: ["printing", "management", "production", "orders", "attendance", "salary"],
+  keywords: ["printing", "management", "production", "orders", "attendance", "salary", "billing"],
   robots: {
     index: false, // Private business app — no public indexing
     follow: false,
   },
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: APP_NAME,
+  },
+  formatDetection: {
+    telephone: false,
+  },
   icons: {
-    icon: "/icons/icon-192.png",
-    apple: "/icons/icon-192.png",
+    icon: [
+      { url: "/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 
@@ -44,6 +59,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1, // Prevent zoom on form inputs (mobile UX)
+  viewportFit: "cover",
 };
 
 export default async function RootLayout({
@@ -59,9 +75,9 @@ export default async function RootLayout({
       lang={locale}
       className={`${inter.variable} ${notoSansTamil.variable}`}
     >
-      <body className="font-sans antialiased bg-slate-50 text-slate-900">
+      <body className="font-sans antialiased bg-slate-50 text-slate-900 min-h-dvh flex flex-col">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          {children}
+          <PwaProvider>{children}</PwaProvider>
         </NextIntlClientProvider>
       </body>
     </html>
