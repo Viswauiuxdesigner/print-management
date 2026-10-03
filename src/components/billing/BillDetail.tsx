@@ -16,6 +16,11 @@ import {
   Package,
   Edit2,
   Ban,
+  FileText,
+  Download,
+  Share2,
+  CheckCircle2,
+  X,
 } from "lucide-react";
 
 import type {
@@ -26,22 +31,39 @@ import { cancelBillAction } from "@/lib/actions/billing";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { ClientPaymentModal } from "./ClientPaymentModal";
+import { BillPdfModal } from "./BillPdfModal";
+import {
+  generateBillPdfBlob,
+  downloadPdfBlob,
+  sharePdfBlob,
+  sanitizePdfFilename,
+} from "@/lib/billing/pdf";
 
 interface BillDetailProps {
   bill: ClientBillWithDetails;
   locale: string;
 }
 
-export function BillDetail({ bill }: BillDetailProps) {
+export function BillDetail({ bill, locale }: BillDetailProps) {
   const t = useTranslations("billing");
   const tErr = useTranslations("errors");
   const router = useRouter();
+  const isTamil = locale === "ta";
   const [isPending, startTransition] = useTransition();
 
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
   const [actionError, setActionError] = useState<string | null>(null);
+
+  // PDF Action states
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const [isSharingPdf, setIsSharingPdf] = useState(false);
+  const [pdfFeedbackNotice, setPdfFeedbackNotice] = useState<string | null>(null);
+
+  const clientName = bill.client?.name || "Client";
+  const filename = `${bill.bill_number}-${sanitizePdfFilename(clientName)}.pdf`;
 
   const getStatusBadge = (status: BillStatus) => {
     switch (status) {
@@ -81,6 +103,55 @@ export function BillDetail({ bill }: BillDetailProps) {
     }
   };
 
+  // Direct 1-click Download handler
+  const handleQuickDownloadPdf = async () => {
+    if (isDownloadingPdf) return;
+    setIsDownloadingPdf(true);
+    setActionError(null);
+    setPdfFeedbackNotice(null);
+
+    try {
+      const blob = await generateBillPdfBlob(bill, { locale });
+      downloadPdfBlob(blob, filename);
+    } catch (err) {
+      console.error("[handleQuickDownloadPdf] Error:", err);
+      setActionError(isTamil ? "PDF பதிவிறக்க முடியவில்லை" : "Failed to generate and download PDF invoice.");
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
+
+  // Direct 1-click Share handler
+  const handleQuickSharePdf = async () => {
+    if (isSharingPdf) return;
+    setIsSharingPdf(true);
+    setActionError(null);
+    setPdfFeedbackNotice(null);
+
+    try {
+      const blob = await generateBillPdfBlob(bill, { locale });
+      const res = await sharePdfBlob(
+        blob,
+        filename,
+        `Invoice ${bill.bill_number} - ${clientName}`,
+        `Invoice ${bill.bill_number} for ₹${bill.net_amount} from Print Management`
+      );
+
+      if (res.fallbackToDownload) {
+        setPdfFeedbackNotice(
+          isTamil
+            ? "உங்கள் உலாவியில் நேரடி கோப்பு பகிர்வு ஆதரிக்கப்படவில்லை. PDF கோப்பு பதிவிறக்கம் செய்யப்பட்டது."
+            : "Direct file sharing is not supported by your browser. The PDF file has been downloaded instead."
+        );
+      }
+    } catch (err) {
+      console.error("[handleQuickSharePdf] Error:", err);
+      setActionError(isTamil ? "PDF பகிர முடியவில்லை" : "Failed to share PDF invoice.");
+    } finally {
+      setIsSharingPdf(false);
+    }
+  };
+
   const isEditable = bill.status !== "cancelled" && bill.status !== "paid";
   const canCancel = bill.status !== "cancelled" && Number(bill.paid_amount || 0) === 0;
 
@@ -96,7 +167,40 @@ export function BillDetail({ bill }: BillDetailProps) {
           <span>{t("nav_billing_dashboard")}</span>
         </Link>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {/* PDF Action Group */}
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsPdfModalOpen(true)}
+            className="text-brand-700 bg-brand-50/70 hover:bg-brand-100/70 border-brand-200"
+          >
+            <FileText className="h-3.5 w-3.5 mr-1" />
+            <span>{isTamil ? "PDF உருவாக்கு" : "Generate PDF"}</span>
+          </Button>
+
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleQuickDownloadPdf}
+            disabled={isDownloadingPdf}
+            loading={isDownloadingPdf}
+          >
+            <Download className="h-3.5 w-3.5 mr-1" />
+            <span>{isTamil ? "பதிவிறக்கு" : "Download PDF"}</span>
+          </Button>
+
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleQuickSharePdf}
+            disabled={isSharingPdf}
+            loading={isSharingPdf}
+          >
+            <Share2 className="h-3.5 w-3.5 mr-1 text-brand-600" />
+            <span>{isTamil ? "பகிர்க" : "Share"}</span>
+          </Button>
+
           {isEditable && (
             <Link href={`/billing/${bill.id}/edit`}>
               <Button variant="secondary" size="sm">
@@ -131,6 +235,20 @@ export function BillDetail({ bill }: BillDetailProps) {
         </div>
       </div>
 
+      {pdfFeedbackNotice && (
+        <div className="flex items-start gap-2 p-3 bg-amber-50 text-amber-900 text-xs sm:text-sm rounded-xl border border-amber-200 animate-in fade-in">
+          <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-amber-600" />
+          <span className="flex-1">{pdfFeedbackNotice}</span>
+          <button
+            type="button"
+            onClick={() => setPdfFeedbackNotice(null)}
+            className="text-amber-600 hover:text-amber-800"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       {actionError && (
         <div className="flex items-start gap-2 p-3.5 bg-red-50 text-red-800 text-xs sm:text-sm rounded-xl border border-red-200">
           <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-600" />
@@ -139,7 +257,7 @@ export function BillDetail({ bill }: BillDetailProps) {
       )}
 
       {/* Bill Overview Header Card */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3.5">
             <div className="h-12 w-12 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center font-bold text-lg border border-brand-100 shrink-0">
@@ -163,6 +281,50 @@ export function BillDetail({ bill }: BillDetailProps) {
             <span className="text-xl font-bold font-mono text-slate-900">
               ₹{Number(bill.net_amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
             </span>
+          </div>
+        </div>
+
+        {/* Action Toolbar for PDF Invoices inside Header Card */}
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100 bg-slate-50/50 -mx-5 -mb-5 p-4 rounded-b-2xl">
+          <div className="text-xs text-slate-500 flex items-center gap-1.5">
+            <FileText className="h-4 w-4 text-brand-600" />
+            <span>{isTamil ? "வாடிக்கையாளர் பில் PDF கோப்பு" : "Client PDF Invoice Document"}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsPdfModalOpen(true)}
+              className="text-xs"
+            >
+              <FileText className="h-3.5 w-3.5 mr-1 text-slate-600" />
+              <span>{isTamil ? "முன்னோட்டம் & அச்சிடு" : "Preview & Print"}</span>
+            </Button>
+
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleQuickDownloadPdf}
+              disabled={isDownloadingPdf}
+              loading={isDownloadingPdf}
+              className="text-xs"
+            >
+              <Download className="h-3.5 w-3.5 mr-1" />
+              <span>{isTamil ? "PDF பதிவிறக்கு" : "Download PDF"}</span>
+            </Button>
+
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleQuickSharePdf}
+              disabled={isSharingPdf}
+              loading={isSharingPdf}
+              className="text-xs text-brand-700 bg-brand-50 hover:bg-brand-100 border-brand-200"
+            >
+              <Share2 className="h-3.5 w-3.5 mr-1" />
+              <span>{isTamil ? "பகிர்க (Share)" : "Share PDF"}</span>
+            </Button>
           </div>
         </div>
       </div>
@@ -283,7 +445,7 @@ export function BillDetail({ bill }: BillDetailProps) {
             </div>
           )}
 
-          {bill.billing_type === "mixed" && bill.additional_amount > 0 && (
+          {bill.billing_type === "mixed" && Number(bill.additional_amount || 0) > 0 && (
             <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
               <span className="text-slate-500 block text-xs">{t("field_additional_amount")}</span>
               <span className="font-mono font-bold text-slate-900 text-sm">
@@ -390,6 +552,16 @@ export function BillDetail({ bill }: BillDetailProps) {
           bill={bill}
           isOpen={isPaymentModalOpen}
           onClose={() => setIsPaymentModalOpen(false)}
+        />
+      )}
+
+      {/* Bill PDF Preview Modal */}
+      {isPdfModalOpen && (
+        <BillPdfModal
+          bill={bill}
+          isOpen={isPdfModalOpen}
+          onClose={() => setIsPdfModalOpen(false)}
+          locale={locale}
         />
       )}
 

@@ -13,6 +13,7 @@ import {
   ArrowRight,
   Users,
   History,
+  FileSpreadsheet,
 } from "lucide-react";
 
 import type {
@@ -29,6 +30,7 @@ import { Badge } from "@/components/ui/Badge";
 import { ClientPaymentModal } from "./ClientPaymentModal";
 import { OutstandingClientsList } from "./OutstandingClientsList";
 import { PaymentHistoryList } from "./PaymentHistoryList";
+import { BillingStatementPdfModal } from "./BillingStatementPdfModal";
 
 interface BillingDashboardProps {
   initialSummary: BillingSummary;
@@ -67,6 +69,9 @@ export function BillingDashboard({
 
   // Payment Modal State
   const [paymentBill, setPaymentBill] = useState<ClientBillWithDetails | null>(null);
+
+  // Statement PDF Modal State
+  const [isStatementModalOpen, setIsStatementModalOpen] = useState(false);
 
   // Filter bills
   const filteredBills = initialBills.filter((b) => {
@@ -114,6 +119,16 @@ export function BillingDashboard({
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsStatementModalOpen(true)}
+            className="text-slate-700 bg-white shadow-2xs hover:bg-slate-50"
+          >
+            <FileSpreadsheet className="h-4 w-4 mr-1.5 text-brand-600" />
+            <span>{locale === "ta" ? "அறிக்கை PDF" : "Export Statement PDF"}</span>
+          </Button>
+
           <Link href="/billing/new">
             <Button variant="primary" size="sm">
               <PlusCircle className="h-4 w-4 mr-1.5" />
@@ -474,6 +489,17 @@ export function BillingDashboard({
           bill={paymentBill}
           isOpen={!!paymentBill}
           onClose={() => setPaymentBill(null)}
+        />
+      )}
+
+      {/* Statement PDF Export Modal */}
+      {isStatementModalOpen && (
+        <BillingStatementPdfModal
+          bills={initialBills}
+          clients={clients}
+          isOpen={isStatementModalOpen}
+          onClose={() => setIsStatementModalOpen(false)}
+          locale={locale}
         />
       )}
     </div>
