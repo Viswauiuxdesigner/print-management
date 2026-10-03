@@ -68,7 +68,7 @@ export async function renderStatementToPdfPages(
   const SUBSEQUENT_PAGE_MAX_ROWS = 22;
 
   const totalBills = bills.length;
-  let remainingBills = [...bills];
+  const remainingBills = [...bills];
   const pages: PdfImagePage[] = [];
 
   let pageIndex = 0;

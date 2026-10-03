@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useEffect } from "react";
 import {
   X,
   Download,
@@ -32,7 +31,6 @@ interface BillPdfModalProps {
 }
 
 export function BillPdfModal({ bill, isOpen, onClose, locale }: BillPdfModalProps) {
-  const t = useTranslations("billing");
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,44 +42,44 @@ export function BillPdfModal({ bill, isOpen, onClose, locale }: BillPdfModalProp
   const clientName = bill.client?.name || "Client";
   const filename = `${bill.bill_number}-${sanitizePdfFilename(clientName)}.pdf`;
 
-  const generatePdf = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    setShareNotice(null);
-
-    try {
-      const blob = await generateBillPdfBlob(bill, { locale });
-      setPdfBlob(blob);
-      const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
-    } catch (err) {
-      console.error("[BillPdfModal] PDF Generation error:", err);
-      setError("Failed to generate PDF invoice. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [bill, locale]);
-
   useEffect(() => {
+    let currentUrl: string | null = null;
+    let isMounted = true;
+
     if (isOpen) {
-      generatePdf();
+      setIsLoading(true);
+      setError(null);
+      setShareNotice(null);
+
+      generateBillPdfBlob(bill, { locale })
+        .then((blob) => {
+          if (!isMounted) return;
+          setPdfBlob(blob);
+          currentUrl = URL.createObjectURL(blob);
+          setPdfUrl(currentUrl);
+        })
+        .catch((err) => {
+          if (!isMounted) return;
+          console.error("[BillPdfModal] PDF Generation error:", err);
+          setError("Failed to generate PDF invoice. Please try again.");
+        })
+        .finally(() => {
+          if (isMounted) setIsLoading(false);
+        });
     } else {
-      if (pdfUrl) {
-        URL.revokeObjectURL(pdfUrl);
-        setPdfUrl(null);
-      }
       setPdfBlob(null);
+      setPdfUrl(null);
       setZoom(100);
       setShareNotice(null);
     }
-  }, [isOpen, generatePdf]);
 
-  // Clean up URL on unmount
-  useEffect(() => {
     return () => {
-      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+      isMounted = false;
+      if (currentUrl) {
+        URL.revokeObjectURL(currentUrl);
+      }
     };
-  }, [pdfUrl]);
+  }, [isOpen, bill, locale]);
 
   if (!isOpen) return null;
 

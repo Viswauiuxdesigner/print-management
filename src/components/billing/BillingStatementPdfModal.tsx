@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import {
   X,
   Download,
@@ -43,7 +42,6 @@ export function BillingStatementPdfModal({
   onClose,
   locale,
 }: BillingStatementPdfModalProps) {
-  const t = useTranslations("billing");
   const isTamil = locale === "ta";
 
   // Filter states
@@ -189,16 +187,26 @@ export function BillingStatementPdfModal({
       );
 
       setPdfBlob(blob);
-      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
-      const url = URL.createObjectURL(blob);
-      setPdfUrl(url);
+      setPdfUrl((prevUrl) => {
+        if (prevUrl) URL.revokeObjectURL(prevUrl);
+        return URL.createObjectURL(blob);
+      });
     } catch (err) {
       console.error("[BillingStatementPdfModal] Statement generation error:", err);
       setError("Failed to generate billing statement PDF.");
     } finally {
       setIsLoading(false);
     }
-  }, [filteredBills, summary, periodLabel, locale, selectedClientId, selectedStatus, clients, pdfUrl]);
+  }, [filteredBills, summary, periodLabel, locale, selectedClientId, selectedStatus, clients]);
+
+  // Clean up object URL on unmount
+  useEffect(() => {
+    return () => {
+      if (pdfUrl) {
+        URL.revokeObjectURL(pdfUrl);
+      }
+    };
+  }, [pdfUrl]);
 
   if (!isOpen) return null;
 
