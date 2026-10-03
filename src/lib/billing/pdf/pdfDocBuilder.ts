@@ -22,17 +22,18 @@ function strToBytes(str: string): Uint8Array {
 }
 
 /**
- * Combines multiple Uint8Arrays into a single contiguous Uint8Array
+ * Combines multiple Uint8Arrays into a single contiguous ArrayBuffer
  */
-function concatUint8Arrays(arrays: Uint8Array[]): Uint8Array {
+function concatToBuffer(arrays: Uint8Array[]): ArrayBuffer {
   const totalLength = arrays.reduce((acc, arr) => acc + arr.length, 0);
-  const result = new Uint8Array(totalLength);
+  const buffer = new ArrayBuffer(totalLength);
+  const view = new Uint8Array(buffer);
   let offset = 0;
   for (const arr of arrays) {
-    result.set(arr, offset);
+    view.set(arr, offset);
     offset += arr.length;
   }
-  return result;
+  return buffer;
 }
 
 /**
@@ -172,6 +173,6 @@ export function buildPdfFromJpegPages(pages: PdfImagePage[], title: string = "In
       `%%EOF\n`
   );
 
-  const finalPdfBytes = concatUint8Arrays(chunks);
-  return new Blob([finalPdfBytes], { type: "application/pdf" });
+  const finalPdfBuffer = concatToBuffer(chunks);
+  return new Blob([finalPdfBuffer], { type: "application/pdf" });
 }
